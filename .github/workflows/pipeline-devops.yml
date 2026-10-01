@@ -1,0 +1,27 @@
+name: Code Quality Gate (Pylint)
+
+on:
+    push:
+        branches: ["**"]
+    pull_request:
+        branches: ["main"]
+    workflow_dispatch: {}
+
+jobs:
+    pylint:
+        name: Pylint quality check
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.x"
+
+            - name: Install Pylint
+              run: pip install pylint
+
+            - name: Run Pylint with minimum score 9
+              run: pylint **/*.py --fail-under=9
